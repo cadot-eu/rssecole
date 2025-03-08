@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Themes
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+	<a class="btn btn-primary" href="{{ path('theme') }}">Retour</a>
+	<h1>Article du flux
+		{{ flux.domaine }}
+		<span class="fs-6">{{ flux.url }}</span>
+		<span class="fs-6">({{ flux.getArticlesEtatNonLu|length }})</span>
+	</h1>
+	<div class="card mb-5">
+		<div class="card-body">
+			{% for article in flux.getArticlesEtatNonLu %}
+				<h5 class="card-title">
+					{% if not article.priorite %}
+						<a class="me-2 nobutton" href="{{ path('ArticleGarder', {'id': article.id}) }}">
+							<i class="bi bi-check"></i>
+						</a>
+					{% endif %}
+					<a target="_blank" href="{{ path('voirArticle', {'id': article.id}) }}">{{ article.titre!=''?article.titre:article.url }}</a>
+					({{ article.lecturemn~" min" }})
+				</h5>
+				{% if article.titre !=''%}
+					<p class="card-text">
+						{{ article.url }}
+					</p>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{%endblock%}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{article.titre|default('Sans titre')}}</title>
+		{% block stylesheets %}
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+
+		{% endblock %}
+		{% block importmap %}
+			{{ importmap('voir') }}
+
+		{% endblock %}
+	</head>
+	<body>
+		{% block body %}{% endblock %}
+	</body>
+</html>

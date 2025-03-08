@@ -1,0 +1,64 @@
+<turbo-stream action="update" target="theme-list">
+	<template>
+		<input type="hidden" data-controller="flash" value="{{ app.flashes|json_encode }}" \>
+		<form method="post" data-controller="theme-update">
+			{% set totalArticles = 0 %}
+			{% for theme in themes %}
+				{% set totalArticles = totalArticles + theme.countArticles %}
+			{% endfor %}
+			<div class=" mt-3" data-controller="refresh" data-url="{{ path('update_themes') }}" data-number="{{totalArticles}}">
+				{% set nomsThemes = [] %}
+				{% for theme in themes %}
+					{% set nomsThemes = nomsThemes|merge([theme.nom~'|'~theme.id]) %}
+					<div class="card mb-3">
+						<div class="card-body">
+							{% set nbrArticles=theme.countArticles%}
+							<h3 class="card-title">
+								{% if nbrArticles == 0 %}
+									<span class="text-muted">{{ (theme.nom|upper) }}</span>
+								{% else %}
+									<a href="{{ path('voirArticlesByTheme', {'theme': theme.id}) }}" data-turbo="false">{{ (theme.nom|upper) }}</a>
+								{% endif %}
+
+								<span class="ms-auto">
+									<a href="{{ path('theme_loadArticles', {'theme': theme.id}) }}" class=" btn btn-primary">Charger les articles</a>
+								</span>
+								<span>
+									<button type="button" value="{{ theme.id }}" class="viderArticles confirmation btn btn-sm btn-danger ms-2" name="vider_articles-{{ theme.id }}" attr-nbr="{{ nbrArticles }}" value="{{ theme.id }}" data-controller="form" data-form-url-value="{{ path('viderArticles', {'id': theme.id}) }}">Supprimer les articles sans priorité</button>
+								</span>
+
+							</h3>
+							<div class=" card-text d-flex flex-wrap">
+								{% for flux in theme.fluxs %}
+									<div class="w-33 text-truncate flux ms-4" title="{{ flux.url }}">
+
+										<button class="nobutton" type="button" data-controller="copy-to-clipboard" data-copy-to-clipboard-text-value="{{ flux.url }}" data-action="click->copy-to-clipboard#copy">
+											<span class="bi bi-clipboard"></span>
+										</button>
+										<button data-confirmation-formaction-value="{{ path('supprimerFlux', {'flux': flux.id}) }}" data-controller="confirmation" data-action="confirmation#confirm" class="nobutton text-danger">
+											x
+										</button>
+										<a href="{{ path('voirArticlesByFlux', {'flux': flux.id}) }}" data-turbo="false">{{ flux.domaine }}</a>
+										({{flux.getArticlesByNonPriorite()|length~'/'~flux.getArticlesEtatNonLu|length}})
+
+										<button type="button" data-controller="move-flux" data-move-flux-formaction-value="{{ path('deplacer_flux', {'flux': flux.id}) }}" data-action="click->move-flux#move" data-move-flux-theme-value="{{theme.id}}" class="movelink nobutton  text-primary">
+											<span class="bi bi-arrow-down-up"></span>
+										</button>
+										<a href="{{ path('loadArticlesFlux', {'flux': flux.id}) }}" class=" nobutton text-primary">
+											<span class="bi bi-arrow-down"></span>
+										</a>
+
+										<button data-form-url-value="{{ path('fluxLu', {'id': flux.id}) }}" data-controller="form" class="nobutton text-success">
+											<i class="bi bi-check"></i>
+										</button>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<input type="hidden" name="themes" value="{{ nomsThemes|join(';') }}" \>
+			</div>
+		</form>
+	</template>
+</turbo-stream>

@@ -1,0 +1,32 @@
+body {
+    background-color: skyblue;
+}
+
+.nobutton {
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.btn-xs {
+    padding: .35rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+}
+
+.swal2-radio {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    /* Deux colonnes */
+    gap: 10px;
+    /* Espacement entre les boutons */
+}
+
+.swal2-radio label {
+    flex: 1 1 calc(50% - 10px);
+    /* Deux colonnes */
+    min-width: 150px;
+}

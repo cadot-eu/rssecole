@@ -1,0 +1,122 @@
+<turbo-stream action="update" target="article">
+	<template>
+
+		<div class="container mt-1" data-controller="voir">
+			<div class="row ">
+				<button data-confirmation-formaction-value="{{ path('vider', {'id': article.id, 'type': 'marques'}) }}" data-controller="confirmation" data-action="confirmation#confirm" class="btn btn-danger col-2">
+					Supprimer toutes les marques
+				</button>
+				<button data-confirmation-formaction-value="{{ path('vider', {'id': article.id, 'type': 'questions'}) }}" data-controller="confirmation" data-action="confirmation#confirm" class="btn btn-danger col-2">
+					Supprimer toutes les questions
+				</button>
+				<button data-confirmation-formaction-value="{{ path('viderPubs', {'id': article.id}) }}" data-controller="confirmation" data-action="confirmation#confirm" class="btn btn-danger col-2 ">
+					Supprimer toutes les pubs du flux
+				</button>
+				<button data-confirmation-formaction-value="{{ path('viderDernierePub', {'id': article.id}) }}" data-controller="confirmation" data-action="confirmation#confirm" class="btn btn-danger col-2">
+					Supprimer la derniere pub
+				</button>
+				<button data-confirmation-formaction-value="{{ path('viderBasPub', {'id': article.id}) }}" data-controller="confirmation" data-action="confirmation#confirm" class="btn btn-danger col-2">
+					Supprimer la bas pub
+				</button>
+				<button data-controller="form" data-form-url-value="{{ path('lireArticle', {'id': article.id}) }}" class="btn btn-secondary col-2" data-turbo="false">Lire l'article</button>
+				<span>{{article.flux.pubs|length}}
+					pubs supprimées</span>
+			</div>
+			<div class="row">
+				<form action="{{ path('addNote', {'id': article.id}) }}" method="post">
+					<textarea name="notes" class="form-control">{{ article.notes}}</textarea>
+					<button type="submit" class="btn btn-primary">Ajouter la note</button>
+				</form>
+
+			</div>
+
+			<span class="float-end">
+				<i class="bi bi-plus-circle"></i>
+				{% for i in 1..5 %}
+					{% if article.priorite == i %}
+						<strong class="text-primary">{{ i }}</strong>
+					{% else %}
+						<button type="button" data-controller="priorite" data-priorite-priorite-value="{{ i }}" data-action="click->priorite#visit" data-priorite-articleid-value="{{ article.id }}" class="nobutton">{{ i }}</button>
+					{% endif %}
+				{% endfor %}
+				<button type="button" data-controller="priorite" data-priorite-priorite-value="0" data-action="click->priorite#visit" data-priorite-articleid-value="{{ article.id }}" class="nobutton">{{article.priorite==null?'<u>aucune</u>':'aucune'}}</button>
+				<i class="bi bi-dash-circle-dotted"></i>
+			</span>
+		</div>
+		<div class="container mt-2 d-flex">
+			<input type="hidden" data-controller="flash" value="{{ app.flashes|json_encode }}" \>
+			<input type="hidden" id="idArticle" value="{{ article.id }}" \>
+			<div class="row border-bottom border-2 ">
+				<div class="col-md-2 ">
+					{% set image_in_content = article.content|lower|replace({'https://': 'http://'}) %}
+					{% set normalized_image_url = article.image|lower|replace({'https://': 'http://'}) %}
+					{% if article.image and normalized_image_url not in image_in_content %}
+						<img src="{{article.image}}" style="width: 100%; height: auto;" class="img-fluid rounded-start">
+					{% endif %}
+				</div>
+				<div class="col-md-10">
+					<h1 class="display-4">{{article.titre|default('Sans titre')}}</h1>
+					{% if article.author %}
+						<h2 class="display-6">By
+							{{article.author|default}}</h2>
+					{% endif %}
+
+					<h6 class="text-muted">
+						<a href="{{article.url}}" target="_blank">{{article.url}}</a>
+					</h6>
+				</div>
+			</div>
+		</div>
+		<div class="row ">
+			<div class="col-4 border-end border-2">
+				<h2>Les repères</h2>
+				{% if article.getMarques|length > 0  %}
+					<ul>
+						{% set oldstyle = null %}
+						{% for marque in article.getMarques %}
+							{% if oldstyle != marque.style %}
+								<h3 class="card-title bg-{{marque.style|lower}}">
+									{{marque.style}}
+								</h3>
+							{% endif %}
+							{% set oldstyle = marque.style %}
+							<li>
+								{{marque.etat?'<s>'}}
+								{{marque.selection|raw}}<a class="float-end text-danger" href="{{path('viderMarque', {'id': marque.id})}}">
+									<i class="bi bi-x"></i>
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+				{% if article.getQuestions|length > 0  %}
+					<div class="card mt-2">
+
+						<div class="card-body">
+							<h3 class="card-title bg-question">
+								Questions
+							</h3>
+							{% for question in article.getQuestions %}
+								<p class="card-title">
+									<a class="float-end text-danger" href="{{path('viderQuestion', {'id': question.id})}}">
+										<i class="bi bi-x"></i>
+									</a>
+									{{question.texte|raw}}
+								</p>
+								<p class="card-text">
+									{{question.question}}
+								</p>
+								{% if not loop.last %}
+									<hr>
+								{% endif %}
+
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+			<div class="col-8" data-controller="reperes">{{article.content|raw}}</div>
+
+		</div>
+	</template>
+</turbo-stream>

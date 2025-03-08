@@ -1,0 +1,10 @@
+{% extends 'basevoir.html.twig' %}
+{% block importmap %}
+	{{ importmap('voir') }}
+{% endblock %}
+
+{% block body %}
+	<div id="article" attr-id="{{ article.id }}">
+		{{ include('theme/streamArticle.html.twig', { article: article }) }}
+	</div>
+{% endblock %}

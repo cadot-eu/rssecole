@@ -1,0 +1,84 @@
+<turbo-stream action="update" target="article">
+	<template>
+		<div class="container mt-2 " data-controller="voir">
+			<a class="float-end" target="blank" href="{{path('voirArticle', {'id': article.id})}}">Voir l'article</a>
+			<input type="hidden" data-controller="flash" value="{{ app.flashes|json_encode }}" \>
+			<div class="row border-bottom border-2">
+				<div class="col-md-2 ">
+					{% set image_in_content = article.content|lower|replace({'https://': 'http://'}) %}
+					{% set normalized_image_url = article.image|lower|replace({'https://': 'http://'}) %}
+					{% if article.image and normalized_image_url not in image_in_content %}
+						<img src="{{article.image}}" style="width: 100%; height: auto;" class="img-fluid rounded-start">
+					{% endif %}
+				</div>
+				<div class="col-md-10">
+					<h1 class="display-4">{{article.titre|default('Sans titre')}}</h1>
+					{% if article.author %}
+						<h2 class="display-6">By
+							{{article.author|default}}</h2>
+					{% endif %}
+
+					<h6 class="text-muted">
+						<a href="{{article.url}}" target="_blank">{{article.url}}</a>
+					</h6>
+				</div>
+				{% if article.notes%}
+					<div class="col-12">
+						<blockquote class="blockquote">{{article.notes|raw}}</blockquote>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row px-3">
+			<div class="col-3 border-end border-2">
+				{% if article.marques|length ==0 and article.questions|length == 0%}
+					<a class="btn btn-primary w-100 my-1" target="blank" href="{{path('ArticleLu', {'id': article.id})}}">{{article.etat!='lu'?"Marquer l'article comme lu":"Marquer l'article comme non lu"}}</a>
+				{% endif %}
+				{% if article.getMarques|length > 0  %}
+					<ul class="">
+						{% set oldstyle = null %}
+						{% for marque in article.getMarques %}
+							{% if oldstyle != marque.style %}
+								<h3 class="bg-{{marque.style|lower}}">
+									{{marque.style|upper}}
+								</h3>
+							{% endif %}
+							{% set oldstyle = marque.style %}
+							<li class="{{marque.etat?'text-barre'}}">
+								<a href='#marque-{{marque.id}}'>{{marque.selection|raw}}</a>
+								<a class="nobutton float-end text-secondary" href="{{path('MarqueFait', {'id': marque.id})}}">
+									<i class="bi bi-{{marque.etat?'toggle-on':'toggle-off'}} {{marque.etat?'text-success':''}}"></i>
+								</a>
+
+							</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+				{% if article.getQuestions|length > 0  %}
+					<h3 class=" bg-question">
+						Questions
+						<span class="float-end fs-6">Mettre souris desssus</span>
+					</h3>
+					{% for question in article.getQuestions %}
+						<p class="">
+							<a class="nobutton float-end text-secondary" href="{{path('QuestionFait', {'id': question.id})}}">
+								<i class="bi bi-{{question.etat?'toggle-on':'toggle-off'}} {{question.etat?'text-success':''}}"></i>
+							</a>
+							<a href='#question-{{question.id}}'>{{question.texte|raw}}</a>
+						</p>
+						<p class="">
+							{{question.question}}
+						</p>
+						{% if not loop.last %}
+							<hr>
+						{% endif %}
+
+					{% endfor %}
+
+				{% endif %}
+			</div>
+			<div class="content col-9 ps-5">{{article.content|raw}}</div>
+
+		</div>
+	</template>
+</turbo-stream>

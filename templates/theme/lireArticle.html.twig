@@ -1,0 +1,11 @@
+{% extends 'basevoir.html.twig' %}
+{% block importmap %}
+	{{parent()}}
+	{{ importmap('sarah') }}
+{% endblock %}
+{% block body %}
+	<a href="{{ path('app_sarah') }}" data-turbo="false" class="btn btn-primary" id="retour">Retour aux articles</a>
+	<div id="article" attr-id="{{ article.id }}">
+		{{ include('theme/streamVoir.html.twig', { article: article }) }}
+	</div>
+{% endblock %}

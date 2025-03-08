@@ -1,0 +1,290 @@
+.bg-question {
+    background-color: #8cdabc45;
+}
+
+.bg-orthographe {
+    background-color: #afa9ee4a;
+}
+
+.bg-important {
+    background-color: #f1ffaa60;
+}
+
+.bg-explique {
+    background-color: #69bef34b;
+}
+
+.hoverdiv {
+    background-color: #20a1564c;
+}
+
+
+/* CSS pour une meilleure lisibilité sur écran d'ordinateur */
+body {
+    margin: 0 auto;
+    padding: 1.5rem;
+    line-height: 1.6;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+    background-color: #f8f8f8;
+}
+
+/* Taille d'écran optimale pour la lecture */
+@media (min-width: 1200px) {
+    body {
+        font-size: 1.2rem;
+        max-width: 130ch;
+    }
+}
+
+/* Pour les écrans plus petits */
+@media (max-width: 768px) {
+    body {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* Titres */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.3;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #222;
+}
+
+h1 {
+    font-size: 2.2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+/* Paragraphes */
+p {
+    margin-bottom: 1.5rem;
+}
+
+/* Liens */
+a {
+    color: #0066cc;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+a:hover,
+a:focus {
+    border-bottom-color: #0066cc;
+}
+
+/* Contraste et accessibilité */
+::selection {
+    background: #d3e5f7;
+}
+
+/* Mode sombre */
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #dadada;
+        background-color: #222;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #f0f0f0;
+    }
+
+    a {
+        color: #4d9aff;
+    }
+
+    a:hover,
+    a:focus {
+        border-bottom-color: #4d9aff;
+    }
+
+    ::selection {
+        background: #2a4e6e;
+    }
+}
+
+/* Espacement du contenu */
+ul,
+ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Tableaux */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+th,
+td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+@media (prefers-color-scheme: dark) {
+
+    th,
+    td {
+        border-color: #444;
+    }
+}
+
+/* Mise en évidence du code */
+code,
+pre {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+
+    code,
+    pre {
+        background-color: #333;
+    }
+}
+
+code {
+    padding: 0.2em 0.4em;
+}
+
+pre {
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+/* Réduire la fatigue oculaire */
+html {
+    scroll-behavior: smooth;
+}
+
+.lh-1 {
+    line-height: 1 !important;
+}
+
+.lh-sm {
+    line-height: 1.25 !important;
+}
+
+.lh-base {
+    line-height: 1.5 !important;
+}
+
+.lh-lg {
+    line-height: 2 !important;
+}
+
+.text-barre {
+    color: gainsboro;
+}
+
+.pourlire {
+    color: transparent;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
+.pourlire::after {
+    content: attr(data-bs-content);
+    color: rgb(99, 99, 197);
+    /* Personnalisation */
+    display: block;
+    /* Pour que le texte s'affiche */
+    transform: translateX(-120%) rotate(-90deg) scaleX(2);
+    position: absolute;
+    opacity: 0;
+    /* Caché par défaut */
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Affichage uniquement si un parent a une classe qui commence par "bg-" */
+[class^="bg-"] .pourlire::after {
+    opacity: 1;
+}
+
+.blockquote {
+    background: #fffa90;
+    /* Jaune Post-it */
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
+    padding: 20px;
+    margin: 40px auto;
+    width: 300px;
+    max-width: 80%;
+    position: relative;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transform: rotate(-2deg);
+}
+
+/* 📌 Punaise intégrée */
+.blockquote::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 30% 30%, #d00, #900);
+    border-radius: 50%;
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
+    transform: translateX(-50%);
+}
+
+.blockquote::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to bottom, #999, #555);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+}

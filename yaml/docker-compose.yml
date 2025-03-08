@@ -1,0 +1,10 @@
+services:
+  rss:
+    image: cadoteu/symfony5-6-runsite
+    container_name: rss
+    volumes:
+      - .:/app
+    restart: always
+    ports:
+      - 80
+

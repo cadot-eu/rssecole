@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Themes
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Theme</h1>
+		<turbo-frame id="theme-form">
+			<div class="row">
+				<div class="col">
+					<a href='{{path('exportThemes')}}' data-turbo="false" class="btn btn-secondary mb-2 ">Exporter les thèmes</a>
+				</div>
+				<div class="col">
+					<form method="post" enctype="multipart/form-data" action="{{ path('importThemes') }}" data-turbo="false" class="d-flex justify-content-between align-items-center">
+
+						<input type="file" class="form-control me-2" name="json" id="json" placeholder="json">
+						<button type="submit" class="btn btn-primary" name="Importer">Importer</button>
+					</form>
+				</div>
+			</div>
+			<form method="post" action="{{ path('ajouterTheme') }}" class="d-flex justify-content-between align-items-center">
+				<input type="text" class="form-control me-2" name="nom" id="nom" placeholder="Nom">
+				<input type="text" class="form-control me-2" name="url" id="url" placeholder="URL">
+				<button type="submit" class="btn btn-primary" name="Ajouter">Ajouter</button>
+			</form>
+
+		</turbo-frame>
+		<turbo-frame id="theme-list">
+			{{ include('theme/stream.html.twig', { themes: themes }) }}
+		</turbo-frame>
+
+	</div>
+{% endblock %}

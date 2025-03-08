@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Themes
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Theme:{{ theme.nom|upper}}</h1>
+		{% for flux in theme.fluxs %}
+			<h2>{{ flux.domaine}}</h2>
+			{% for article in flux.getArticlesEtatNonLu %}
+				<div class="card mb-3">
+					<div class="card-body">
+						<h5 class="card-title">
+							<a href="{{ path('voirArticle', {'id': article.id}) }}">{{ article.titre }}</a>
+						</h5>
+						<p class="card-text">
+							{{ article.url }}|{{ article.author }}
+						</p>
+					</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+
+	</div>
+{% endblock %}
