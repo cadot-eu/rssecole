@@ -20,22 +20,22 @@ services:
             - "../src/Entity/"
             - "../src/Kernel.php"
 
-    sqlite.connection:
-        class: Doctrine\DBAL\Connection
-        factory: ["@doctrine", "getConnection"]
-        arguments: ["sqlite"]
+    # sqlite.connection:
+    #     class: Doctrine\DBAL\Connection
+    #     factory: ["@doctrine", "getConnection"]
+    #     arguments: ["sqlite"]
 
-    postgres.connection:
-        class: Doctrine\DBAL\Connection
-        factory: ["@doctrine", "getConnection"]
-        arguments: ["postgres"]
+    # postgres.connection:
+    #     class: Doctrine\DBAL\Connection
+    #     factory: ["@doctrine", "getConnection"]
+    #     arguments: ["postgres"]
 
-    postgres.entity_manager:
-        class: Doctrine\ORM\EntityManagerInterface
-        factory: ["@doctrine", "getManager"]
-        arguments: ["postgres"] # Changé de 'default' à 'postgres'
+    # postgres.entity_manager:
+    #     class: Doctrine\ORM\EntityManagerInterface
+    #     factory: ["@doctrine", "getManager"]
+    #     arguments: ["default"] # Changé de 'default' à 'postgres'
 
-    App\Command\TransfertCommand:
-        arguments:
-            $sqliteConnection: "@sqlite.connection"
-            $postgresEntityManager: "@postgres.entity_manager"
+    # App\Command\TransfertCommand:
+    #     arguments:
+    #         $sqliteConnection: "@sqlite.connection"
+    #         $postgresEntityManager: "@postgres.entity_manager"
